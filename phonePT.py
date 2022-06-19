@@ -1,4 +1,3 @@
-from typing import List, Tuple
 from syllables import estimate
 from phonemizer import phonemize
 import re
@@ -10,7 +9,6 @@ voyelles = ['weɪŋ', 'wɐ̃ŋ', 'ɐ̃ʊ̃', 'wa', 'aʊ', 'ua', 'ue', 'õj', 'e
 mot = input('Entrez un mot en portugais : ')
 
 
-# phn is a list of 190 phonemized sentences
 phn = phonemize(
     mot,
     language='pt',
@@ -20,7 +18,7 @@ phn = phonemize(
     njobs=4)
 
 
-def extract_consonnes(mot: str) -> List:
+def extract_consonnes(mot: str) -> list[str]:
     phn_consonnes = []
     for phoneme in consonnes:
         if phoneme in mot:
@@ -31,7 +29,7 @@ def extract_consonnes(mot: str) -> List:
     return phn_consonnes
 
 
-def extract_voyelles(mot: str) -> List:
+def extract_voyelles(mot: str) -> list[str]:
     phn_voyelles = []
     for phoneme in voyelles:
         if phoneme in mot:
@@ -42,7 +40,7 @@ def extract_voyelles(mot: str) -> List:
     return phn_voyelles
 
 
-def extract_voyelles_v2(mot: str):
+def extract_voyelles_v2(mot: str) -> tuple[list[str], str]:
     phn_voyelles= []
     for phoneme in voyelles:
         if phoneme in mot:
@@ -53,7 +51,7 @@ def extract_voyelles_v2(mot: str):
     return phn_voyelles, mot
 
 
-def extract_consonnes_voyelles(mot: str) -> Tuple:
+def extract_consonnes_voyelles(mot: str) -> tuple[list[str], list[str]]:
     liste_voyelles, reste = extract_voyelles_v2(mot)
     liste_consonnes = extract_consonnes(reste)
     return liste_consonnes, liste_voyelles

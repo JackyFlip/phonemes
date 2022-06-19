@@ -1,17 +1,6 @@
-# need to pip install requests
-import requests
 from syllables import estimate
 from phonemizer import phonemize
-from phonemizer.separator import Separator
 import re
-
-# text is a list of 190 English sentences downloaded from github
-# url = (
-#     'https://gist.githubusercontent.com/CorentinJ/'
-#     '0bc27814d93510ae8b6fe4516dc6981d/raw/'
-#     'bb6e852b05f5bc918a9a3cb439afe7e2de570312/small_corpus.txt')
-# text = requests.get(url).content.decode()
-# text = [line.strip() for line in text.split('\n') if line]
 
 
 def compteur_consonnes(mot: str): 
@@ -27,7 +16,7 @@ def compteur_voyelles(mot: str):
     return sum([mot.count(phoneme) for phoneme in voyelles])
 
 
-def extract_consonnes(mot: str) -> List:
+def extract_consonnes(mot: str) -> list[str]:
     phn_consonnes = []
     for phoneme in consonnes:
         if phoneme in mot:
@@ -38,7 +27,7 @@ def extract_consonnes(mot: str) -> List:
     return phn_consonnes
 
 
-def extract_voyelles(mot: str) -> List:
+def extract_voyelles(mot: str) -> list[str]:
     phn_voyelles = []
     for phoneme in voyelles:
         if phoneme in mot:
@@ -55,7 +44,6 @@ voyelles = ['ɑ̃', 'a', 'ɑ', 'e', 'ɛː', 'ɛ̃', 'ɛ', 'ə', 'i', 'œ̃', 'œ
 mot = input('Entrez un mot en français : ')
 
 
-# phn is a list of 190 phonemized sentences
 phn = phonemize(
     mot,
     language='fr-fr',
@@ -63,9 +51,6 @@ phn = phonemize(
     strip=True,
     preserve_punctuation=True,
     njobs=4)
-
-# print(f'Mot : {mot} ({phn}) ; contient {estimate(mot)} syllabe(s)')
-# print(f'consonne(s) : {compteur_consonnes(phn)} ; voyelle(s) : {compteur_voyelles(phn)}')
 
 phn_consonnes = extract_consonnes(phn)
 phn_voyelles = extract_voyelles(phn)

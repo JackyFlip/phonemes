@@ -1,12 +1,9 @@
-# need to pip install requests
-import requests
 from syllables import estimate
 from phonemizer import phonemize
-from phonemizer.separator import Separator
 import re
 
 
-def extract_consonnes(mot: str) -> List:
+def extract_consonnes(mot: str) -> list[str]:
     phn_consonnes = []
     for phoneme in consonnes:
         if phoneme in mot:
@@ -17,7 +14,7 @@ def extract_consonnes(mot: str) -> List:
     return phn_consonnes
 
 
-def extract_voyelles(mot: str) -> List:
+def extract_voyelles(mot: str) -> list[str]:
     phn_voyelles = []
     for phoneme in voyelles:
         if phoneme in mot:
@@ -34,7 +31,6 @@ voyelles = ['iː', 'uː', 'ɜː', 'ɔː', 'ɑː', 'aʊ', 'iə', 'eɪ', 'ʊə', '
 mot = input('Entrez un mot en anglais : ')
 
 
-# phn is a list of 190 phonemized sentences
 phn = phonemize(
     mot,
     language='en-gb',

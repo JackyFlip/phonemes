@@ -1,15 +1,13 @@
-from typing import List, Tuple
 from syllables import estimate
 from phonemizer import phonemize
 import re
 
-consonnes = ['tsj', 'ən', 'əm', 'əl', 'ər', 'pf', 'ts', 'tʃ', 'dʒ', 'b', 'd', 'ɡ', 'm', 'n', 'ŋ', 'p', 't', 'k', 'f', 'θ', 's', 'ʃ', 'ç', 'x', 'z', 'ʒ', 'j', 'ʝ', 'ʁ', 'r', 'ɾ', 'ɐ', 'ʀ', 'h', 'l', ]
-voyelles = ['aː', 'aɪ', 'aʊ', 'a', 'ɑ', 'ɛː', 'ɛ', 'ɔʏ', 'eː', 'ə', 'ɪ', 'iː', 'ɔ', 'oː', 'œ', 'øː', 'ʊ', 'uː', 'ʏ', 'yː']
+consonnes = ['tsj', 'ən', 'əm', 'əl', 'ər', 'ɜ', 'pf', 'ts', 'tʃ', 'dʒ', 'ʃt', 'b', 'd', 'ɡ', 'm', 'n', 'ŋ', 'p', 't', 'k', 'f', 'θ', 's', 'ʃ', 'ç', 'x', 'z', 'ʒ', 'j', 'ʝ', 'ʁ', 'r', 'ɾ', 'ɐ', 'ʀ', 'h', 'l', ]
+voyelles = ['aː', 'ɑː', 'aɪ', 'aʊ', 'a', 'ɑ', 'ɛː', 'ɛ', 'ɔʏ', 'eː', 'ə', 'ɪ', 'iː', 'ɔ', 'oː', 'œ', 'øː', 'ʊ', 'uː', 'ʏ', 'yː']
 
 mot = input('Entrez un mot en allemand : ')
 
 
-# phn is a list of 190 phonemized sentences
 phn = phonemize(
     mot,
     language='de',
@@ -19,7 +17,7 @@ phn = phonemize(
     njobs=4)
 
 
-def extract_consonnes(mot: str) -> List:
+def extract_consonnes(mot: str) -> list[str]:
     phn_consonnes = []
     for phoneme in consonnes:
         if phoneme in mot:
@@ -30,7 +28,7 @@ def extract_consonnes(mot: str) -> List:
     return phn_consonnes
 
 
-def extract_voyelles(mot: str) -> List:
+def extract_voyelles(mot: str) -> list[str]:
     phn_voyelles = []
     for phoneme in voyelles:
         if phoneme in mot:
@@ -41,7 +39,7 @@ def extract_voyelles(mot: str) -> List:
     return phn_voyelles
 
 
-def extract_consonnes_v2(mot: str):
+def extract_consonnes_v2(mot: str) -> tuple[list[str], str]:
     phn_consonnes = []
     for phoneme in consonnes:
         if phoneme in mot:
@@ -52,15 +50,15 @@ def extract_consonnes_v2(mot: str):
     return phn_consonnes, mot
 
 
-def extract_consonnes_voyelles(mot: str) -> Tuple:
+def extract_consonnes_voyelles(mot: str) -> tuple[list[str], list[str]]:
     liste_consonnes, reste = extract_consonnes_v2(mot)
     liste_voyelles = extract_voyelles(reste)
     return liste_consonnes, liste_voyelles
 
 
-# phn_consonnes = extract_consonnes(phn)
-# phn_voyelles = extract_voyelles(phn)
-phn_consonnes, phn_voyelles = extract_consonnes_voyelles(phn)
+phn_consonnes = extract_consonnes(phn)
+phn_voyelles = extract_voyelles(phn)
+# phn_consonnes, phn_voyelles = extract_consonnes_voyelles(phn)
 n_consonnes = len(phn_consonnes)
 n_voyelles = len(phn_voyelles)
 

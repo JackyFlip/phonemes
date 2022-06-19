@@ -1,4 +1,3 @@
-from typing import List, Tuple
 from syllables import estimate
 from phonemizer import phonemize
 import re
@@ -9,7 +8,6 @@ voyelles = ['aɪ', 'aʊ', 'eɪ', 'eʊ', 'oɪ', 'ow', 'ja', 'wa', 'je', 'jɛ', 'w
 mot = input('Entrez un mot en espagnol : ')
 
 
-# phn is a list of 190 phonemized sentences
 phn = phonemize(
     mot,
     language='es',
@@ -19,7 +17,7 @@ phn = phonemize(
     njobs=4)
 
 
-def extract_consonnes(mot: str) -> List:
+def extract_consonnes(mot: str) -> list[str]:
     phn_consonnes = []
     for phoneme in consonnes:
         if phoneme in mot:
@@ -30,7 +28,7 @@ def extract_consonnes(mot: str) -> List:
     return phn_consonnes
 
 
-def extract_voyelles(mot: str) -> List:
+def extract_voyelles(mot: str) -> list[str]:
     phn_voyelles = []
     for phoneme in voyelles:
         if phoneme in mot:
