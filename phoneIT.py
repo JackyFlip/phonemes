@@ -18,7 +18,7 @@ phn = phonemize(
     njobs=4)
 
 
-def extract_consonnes(mot: str) -> list[str]:
+def extract_consonnes(mot: str):
     phn_consonnes = []
     for phoneme in consonnes:
         if phoneme in mot:
@@ -29,7 +29,7 @@ def extract_consonnes(mot: str) -> list[str]:
     return phn_consonnes
 
 
-def extract_voyelles(mot: str) -> list[str]:
+def extract_voyelles(mot: str):
     phn_voyelles = []
     for phoneme in voyelles:
         if phoneme in mot:
