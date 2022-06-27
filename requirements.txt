@@ -1,2 +1,3 @@
 phonemizer
 pyphen
+syllables
