@@ -1,4 +1,4 @@
-from syllables import estimate
+from pyphen import Pyphen
 from phonemizer import phonemize
 import re
 
@@ -38,6 +38,13 @@ def extract_voyelles(mot: str):
     return phn_voyelles
 
 
+def compteur_syllabes(mot: str):
+    dic = Pyphen(lang='fr')
+    mot_split = dic.inserted(mot)
+    nb_syllabes = len(mot_split.split('-'))
+    return mot_split, nb_syllabes
+
+
 consonnes = ['ks', 'b', 'd', 'f', 'ɡ', 'k', 'l', 'm', 'n', 'ŋ', 'ɲ', 'p', 'ʁ', 's', 'ʃ', 't', 'v', 'z', 'ʒ']
 voyelles = ['ɑ̃', 'a', 'ɑ', 'e', 'ɛː', 'ɛ̃', 'ɛ', 'ə', 'i', 'œ̃', 'œ', 'ø', 'o', 'ɔ̃', 'ɔ', 'u', 'y', 'j', 'w', 'ɥ']
 
@@ -57,6 +64,8 @@ phn_voyelles = extract_voyelles(phn)
 n_consonnes = len(phn_consonnes)
 n_voyelles = len(phn_voyelles)
 
+mot_split, nb_syllabes = compteur_syllabes(mot)
 
-print(f'Mot : {mot} ({phn}) ; contient {estimate(mot)} syllabe(s) ;')
+print()
+print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes} syllabe(s)')
 print(f'{n_consonnes} consonne(s) : {phn_consonnes} et {n_voyelles} voyelle(s) : {phn_voyelles}')
