@@ -3,7 +3,7 @@ from phonemizer import phonemize
 import re
 
 consonnes = ['b', 'tʃ', 'd', 'ð','f', 'ɡ', 'ɣ', 'x', 'θ', 'k', 'l', 'ʎ', 'm', 'n', 'ɲ', 'p', 'r', 'ɾ', 's', 't', 'β']
-voyelles = ['aɪ', 'aʊ', 'eɪ', 'eʊ', 'oɪ', 'ow', 'ja', 'wa', 'je', 'jɛ', 'we', 'jo', 'wo', 'ju', 'wi', 'a', 'e', 'i', 'o', 'u', 'j']
+voyelles = ['w', 'a', 'e', 'i', 'o', 'u', 'j', 'ɛ']
 
 mot = input('Entrez un mot en espagnol : ')
 
