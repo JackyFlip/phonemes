@@ -1,5 +1,7 @@
 from pyphen import Pyphen
 from phonemizer import phonemize
+from syllables import estimate
+from math import ceil
 import re
 
 consonnes = ['tsj', 'pf', 'ts', 'tʃ', 'dʒ', 'b', 'd', 'ɡ', 'm', 'n', 'ŋ', 'p', 't', 'k', 'f', 'v' ,'θ', 's', 'ʃ', 'ç', 'x', 'z', 'ʒ', 'ʁ', 'r', 'ɾ', 'ɐ', 'h', 'l']
@@ -69,7 +71,8 @@ n_consonnes = len(phn_consonnes)
 n_voyelles = len(phn_voyelles)
 
 mot_split, nb_syllabes = compteur_syllabes(mot)
+nb_syllabes_rework = ceil((nb_syllabes + estimate(mot)) /2)
 
 print()
-print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes} syllabe(s)')
+print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes_rework} syllabe(s)')
 print(f'{n_consonnes} consonne(s) : {phn_consonnes} et {n_voyelles} voyelle(s) : {phn_voyelles}')
