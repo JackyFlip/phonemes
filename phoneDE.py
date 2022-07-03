@@ -71,8 +71,7 @@ n_consonnes = len(phn_consonnes)
 n_voyelles = len(phn_voyelles)
 
 mot_split, nb_syllabes = compteur_syllabes(mot)
-nb_syllabes_rework = ceil((nb_syllabes + estimate(mot)) /2)
 
 print()
-print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes_rework} syllabe(s)')
+print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes} syllabe(s)')
 print(f'{n_consonnes} consonne(s) : {phn_consonnes} et {n_voyelles} voyelle(s) : {phn_voyelles}')
