@@ -60,7 +60,7 @@ def extract_consonnes_voyelles(mot: str):
 
 
 def compteur_syllabes(mot: str):
-    dic = Pyphen(lang='pt_PT')
+    dic = Pyphen(lang='pt_PT', left=1, right=1)
     mot_split = dic.inserted(mot)
     nb_syllabes = len(mot_split.split('-'))
     return mot_split, nb_syllabes
@@ -71,8 +71,9 @@ n_consonnes = len(phn_consonnes)
 n_voyelles = len(phn_voyelles)
 
 mot_split, nb_syllabes = compteur_syllabes(mot)
-nb_syllabes_rework = ceil((nb_syllabes + estimate(mot)) /2)
+nb_syllables_old = estimate(mot)
+nb_syllabes_rework = ceil((nb_syllabes + nb_syllables_old) /2)
 
-print()
+print(f'Syllables [{nb_syllabes} {nb_syllables_old} {nb_syllabes_rework}]')
 print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes_rework} syllabe(s)')
 print(f'{n_consonnes} consonne(s) : {phn_consonnes} et {n_voyelles} voyelle(s) : {phn_voyelles}')
