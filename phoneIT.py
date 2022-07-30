@@ -5,8 +5,8 @@ from math import ceil
 import re
 
 
-consonnes = ['tʃ', 'dz', 'dʒ', 'ts', 'b', 'd', 'f', 'ɡ', 'ʎ', 'j', 'k', 'l', 'm', 'n', 'ɲ', 'p', 'r', 's', 'ʃ', 't', 'v', 'w', 'z']
-voyelles = ['a', 'e', 'ɛ', 'i', 'ɪ', 'o', 'ɔ', 'u', 'ʊ']
+consonnes = ['tʃ', 'dz', 'dʒ', 'ts', 'dʒː', 'dzː', 'tʃː', 'tsː', 'ŋɡ', 'ŋk', 'b', 'd', 'f', 'ɡ', 'ʎ', 'k', 'l', 'm', 'n', 'ɲ', 'p', 'r', 'ɾ', 's', 'ʃ', 't', 'v', 'z']
+voyelles = ['a', 'e', 'ɛ', 'i', 'ɪ', 'o', 'ɔ', 'u', 'ʊ', 'j','w']
 
 mot = input('Entrez un mot en italien : ')
 
