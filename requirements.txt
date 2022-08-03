@@ -1,6 +1,8 @@
 ipykernel
+openpyxl
 pandas
 phonemizer
 pyphen
 syllables
 syltippy
+unidecode

@@ -7,17 +7,6 @@ import re
 consonnes = ['tsj', 'pf', 'ts', 'tʃ', 'dʒ', 'b', 'd', 'ɡ', 'm', 'n', 'ŋ', 'p', 't', 'k', 'f', 'v' ,'θ', 's', 'ʃ', 'ç', 'x', 'z', 'ʒ', 'ʁ', 'r', 'ɾ', 'ɐ', 'h', 'l']
 voyelles = ['aː', 'aɪ', 'aʊ', 'a', 'ɛː', 'ɛ', 'eː', 'ə', 'ɪ', 'iː', 'ɔ', 'oː', 'œ', 'øː', 'ø', 'ʊ', 'uː', 'y', 'yː', 'j', 'ɑ̃', 'ɔ̃', 'ɑː']
 
-mot = input('Entrez un mot en allemand : ')
-
-
-phn = phonemize(
-    mot,
-    language='de',
-    backend='espeak',
-    strip=True,
-    preserve_punctuation=True,
-    njobs=4)
-
 
 def extract_consonnes(mot: str):
     phn_consonnes = []
@@ -29,6 +18,13 @@ def extract_consonnes(mot: str):
             mot = re.sub(phoneme, '', mot)
     return phn_consonnes
 
+
+def extract_consonnes_new(mot: str):
+    phn_consonnes = []
+    for lettre in mot:
+        if lettre in consonnes:
+            phn_consonnes.extend([lettre])
+    return phn_consonnes
 
 def extract_voyelles(mot: str):
     phn_voyelles = []
@@ -65,13 +61,37 @@ def compteur_syllabes(mot: str):
     return mot_split, nb_syllabes
 
 
-phn_consonnes = extract_consonnes(phn)
-phn_voyelles = extract_voyelles(phn)
-n_consonnes = len(phn_consonnes)
-n_voyelles = len(phn_voyelles)
+def process_data(mot: str):
 
-mot_split, nb_syllabes = compteur_syllabes(mot)
+    phn = phonemize(
+        mot,
+        language='de',
+        backend='espeak',
+        strip=True,
+        preserve_punctuation=True,
+        njobs=4)
 
-print()
-print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes} syllabe(s)')
-print(f'{n_consonnes} consonne(s) : {phn_consonnes} et {n_voyelles} voyelle(s) : {phn_voyelles}')
+    return extract_consonnes_new(phn), extract_voyelles(phn), compteur_syllabes(mot)[1]
+
+
+if __name__ == '__main__':
+    mot = input('Entrez un mot en allemand : ')
+
+    phn = phonemize(
+        mot,
+        language='de',
+        backend='espeak',
+        strip=True,
+        preserve_punctuation=True,
+        njobs=4)
+
+    phn_consonnes = extract_consonnes(phn)
+    phn_voyelles = extract_voyelles(phn)
+    n_consonnes = len(phn_consonnes)
+    n_voyelles = len(phn_voyelles)
+
+    mot_split, nb_syllabes = compteur_syllabes(mot)
+
+    print()
+    print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes} syllabe(s)')
+    print(f'{n_consonnes} consonne(s) : {phn_consonnes} et {n_voyelles} voyelle(s) : {phn_voyelles}')
