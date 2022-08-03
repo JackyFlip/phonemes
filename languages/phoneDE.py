@@ -21,10 +21,52 @@ def extract_consonnes(mot: str):
 
 def extract_consonnes_new(mot: str):
     phn_consonnes = []
+    phn_distribution = []
     for lettre in mot:
         if lettre in consonnes:
             phn_consonnes.extend([lettre])
+            phn_distribution.append(0)
+        else:
+            phn_distribution.append(1)
+    return phn_consonnes,phn_distribution
+
+
+def construction_liste_consonnes(phn: str) -> list[str]:
+    phn_consonnes = []
+    for phoneme in consonnes:
+        if phoneme in phn:
+            phn_consonnes.extend([phoneme])
+            phn.replace(phoneme, '', 1)
+    print(f'Liste de consonnes: {phn_consonnes}')
     return phn_consonnes
+
+
+def construction_liste_voyelles(phn: str) -> list[str]:
+    phn_voyelles = []
+    for phoneme in voyelles:
+        if phoneme in phn:
+            phn_voyelles.extend([phoneme])
+            phn.replace(phoneme, '', 1)
+    print(f'Liste de voyelles: {phn_voyelles}')
+    return phn_voyelles
+
+
+
+
+def extract_consonnes_voyelles_new(phn: str):
+    phn_consonnes = []
+    phn_voyelles = []
+    phn_distribution = []
+
+    for lettre in phn:
+        if lettre in consonnes:
+            phn_consonnes.extend([lettre])
+            phn_distribution.append(0)
+        elif lettre in voyelles:
+            phn_voyelles.extend([lettre])
+            phn_distribution.append(1)
+    return phn_consonnes, phn_voyelles, phn_distribution
+
 
 def extract_voyelles(mot: str):
     phn_voyelles = []
@@ -71,7 +113,9 @@ def process_data(mot: str):
         preserve_punctuation=True,
         njobs=4)
 
-    return extract_consonnes_new(phn), extract_voyelles(phn), compteur_syllabes(mot)[1]
+    consonnes = extract_consonnes_new(phn)
+
+    return extract_consonnes_voyelles_new(phn), phn, compteur_syllabes(mot)[1]
 
 
 if __name__ == '__main__':

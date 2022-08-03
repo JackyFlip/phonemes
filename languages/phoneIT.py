@@ -48,6 +48,8 @@ def process_data(mot: str):
         preserve_punctuation=True,
         njobs=4)
 
+    print(phn)
+
     return extract_consonnes(phn), extract_voyelles(phn), compteur_syllabes(mot)[1]
 
 
