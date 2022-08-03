@@ -1,4 +1,8 @@
 from constants import *
+from pyphen import Pyphen
+from phonemizer import phonemize
+from syltippy import syllabize
+import re
 
 dictionnaire_consonnes = {
     'fr': CONSONNES_FR,
@@ -29,18 +33,13 @@ dictionnaire_transcription = {
 
 dictionnaire_syllabes_defaut = {
     'fr': 'fr',
-    'it': 'it_IT',
     'de': 'de_DE',
-    'en': 'en_US',
-    'pt': 'pt_PT',
+    'en': 'en_US'
 }
 
 dictionnaire_syllabes_specifique = {
-    'fr': 'fr',
     'it': 'it_IT',
-    'de': 'de_DE',
-    'en': 'en_US',
-    'pt': 'pt_PT',
+    'pt': 'pt_PT'
 }
 
 
@@ -54,25 +53,28 @@ def transcription(mot: str, langue: str) -> str:
         njobs=4)
 
 
-def compteur_syllabes_defaut(mot: str, langue):
-    dic = Pyphen(lang='fr')
-    mot_split = dic.inserted(mot)
-    nb_syllabes = len(mot_split.split('-'))
-    return mot_split, nb_syllabes
+def compteur_syllabes_global(mot: str, langue: str) -> int:
+
+    if langue == 'es':
+        syllables, _ = syllabize(mot)
+        return len(syllables)
+
+    if langue in dictionnaire_syllabes_defaut.keys():
+        lang = dictionnaire_syllabes_defaut[langue]
+        left = 2
+        right = 2
+    elif langue in dictionnaire_syllabes_specifique.keys():
+        lang = dictionnaire_syllabes_specifique[langue]
+        left = 1
+        right = 1
+
+    dic = Pyphen(lang=lang, left=left, right=right)
+    return len(dic.inserted(mot).split('-'))
 
 
-def compteur_syllabes_specifique(mot: str, langue):
-    dic = Pyphen(lang='fr')
-    mot_split = dic.inserted(mot)
-    nb_syllabes = len(mot_split.split('-'))
-    return mot_split, nb_syllabes
-
-
-def compteur_syllabes_espagnol(mot: str, langue):
-    dic = Pyphen(lang='fr')
-    mot_split = dic.inserted(mot)
-    nb_syllabes = len(mot_split.split('-'))
-    return mot_split, nb_syllabes
+def extraction_consonnes_voyelles(mot: str, langue: str) -> (list[str], list[str]):
+    return (extraction_phonemes(transcription(mot, langue), dictionnaire_consonnes[langue]), 
+    extraction_phonemes(transcription(mot, langue), dictionnaire_voyelles[langue]))
 
 
 def extraction_phonemes(mot: str, liste_phonemes: list[str]) -> list[str]:
