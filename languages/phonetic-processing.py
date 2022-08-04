@@ -89,6 +89,19 @@ def extraction_phonemes(mot: str, liste_phonemes: list[str]) -> list[str]:
     return phn_extr
 
 
+def rangement_liste_phonemes(mot: str, phn_extr: list[str]) -> list[str]:
+    ordre = []
+    for phn in phn_extr:
+        ordre.append(mot.find(phn))
+        mot = mot.replace(phn, ' ', 1)
+    
+    phn_zip = list(zip(ordre, phn_extr))
+    phn_zip.sort()
+
+    return list(list(zip(*phn_zip))[1])
+
+
+
 def main():
     pass
 
