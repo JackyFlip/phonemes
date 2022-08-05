@@ -294,7 +294,6 @@ def sauver_donnes(df: pd.DataFrame, nom: str):
     DATA_DIR = Path(Path.cwd()).parent
     DATA_PATH = os.path.join(DATA_DIR, f'data/{nom}.xlsx')
     df.to_excel(DATA_PATH, index=False)
-    del df
 
 
 def calcul_score(liste_mots: list['str'], langues: list['str']) -> np.array:
@@ -302,7 +301,8 @@ def calcul_score(liste_mots: list['str'], langues: list['str']) -> np.array:
 
     for couple in tqdm(liste_mots):
         score = pipeline(preparation_mot(couple[0]), preparation_mot(couple[1]), langues[0], langues[1])
-        score_global = np.append(score_global, score)
+        score_arrondi = int(np.floor(score + 0.5))
+        score_global = np.append(score_global, score_arrondi)
     
     return score_global
 
@@ -320,40 +320,40 @@ def main():
     sauver_donnes(df_fr_it, 'CDI-fr-it')
 
 
-    df_fr_de = df[['fr', 'de']]
-    langues_fr_de = df_fr_de.columns.to_numpy()
-    array_fr_de = df_fr_de.to_numpy()
-    score_fr_de = calcul_score(array_fr_de, langues_fr_de)
-    # df['score_fr_de'] = score_fr_de
-    df_fr_de['score_fr_de'] = score_fr_de
-    sauver_donnes(df_fr_de, 'CDI-fr_de')
+    # df_fr_de = df[['fr', 'de']]
+    # langues_fr_de = df_fr_de.columns.to_numpy()
+    # array_fr_de = df_fr_de.to_numpy()
+    # score_fr_de = calcul_score(array_fr_de, langues_fr_de)
+    # # df['score_fr_de'] = score_fr_de
+    # df_fr_de['score_fr_de'] = score_fr_de
+    # sauver_donnes(df_fr_de, 'CDI-fr_de')
 
 
-    df_fr_en = df[['fr', 'en']]
-    langues_fr_en = df_fr_en.columns.to_numpy()
-    array_fr_en = df_fr_en.to_numpy()
-    score_fr_en = calcul_score(array_fr_en, langues_fr_en)
-    # df['score_fr_en'] = score_fr_en
-    df_fr_en['score_fr_en'] = score_fr_en
-    sauver_donnes(df_fr_en, 'CDI-fr-en')
+    # df_fr_en = df[['fr', 'en']]
+    # langues_fr_en = df_fr_en.columns.to_numpy()
+    # array_fr_en = df_fr_en.to_numpy()
+    # score_fr_en = calcul_score(array_fr_en, langues_fr_en)
+    # # df['score_fr_en'] = score_fr_en
+    # df_fr_en['score_fr_en'] = score_fr_en
+    # sauver_donnes(df_fr_en, 'CDI-fr-en')
 
 
-    df_fr_pt = df[['fr', 'pt']]
-    langues_fr_pt = df_fr_pt.columns.to_numpy()
-    array_fr_pt = df_fr_pt.to_numpy()
-    score_fr_pt = calcul_score(array_fr_pt, langues_fr_pt)
-    # df['score_fr_pt'] = score_fr_pt
-    df_fr_pt['score_fr_pt'] = score_fr_pt
-    sauver_donnes(df_fr_pt, 'CDI-fr-pt')
+    # df_fr_pt = df[['fr', 'pt']]
+    # langues_fr_pt = df_fr_pt.columns.to_numpy()
+    # array_fr_pt = df_fr_pt.to_numpy()
+    # score_fr_pt = calcul_score(array_fr_pt, langues_fr_pt)
+    # # df['score_fr_pt'] = score_fr_pt
+    # df_fr_pt['score_fr_pt'] = score_fr_pt
+    # sauver_donnes(df_fr_pt, 'CDI-fr-pt')
 
 
-    df_fr_es = df[['fr', 'es']]
-    langues_fr_es = df_fr_es.columns.to_numpy() 
-    array_fr_es = df_fr_es.to_numpy()
-    score_fr_es = calcul_score(array_fr_es, langues_fr_es)
-    # df['score_fr_es'] = score_fr_es
-    df_fr_en['score_fr_es'] = score_fr_en
-    sauver_donnes(df_fr_en, 'CDI-fr-en')
+    # df_fr_es = df[['fr', 'es']]
+    # langues_fr_es = df_fr_es.columns.to_numpy() 
+    # array_fr_es = df_fr_es.to_numpy()
+    # score_fr_es = calcul_score(array_fr_es, langues_fr_es)
+    # # df['score_fr_es'] = score_fr_es
+    # df_fr_es['score_fr_es'] = score_fr_es
+    # sauver_donnes(df_fr_es, 'CDI-fr-es')
 
 
 if __name__ == '__main__':
