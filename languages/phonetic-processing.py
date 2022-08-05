@@ -142,7 +142,7 @@ def rangement_liste_phonemes(mot: str, phn_extr: list[str]) -> list[str]:
     return list(list(zip(*phn_zip))[1])
 
 
-def son_initial(mot_transcrit_0: str, mot_transcrit_1: str, langue_0: str, langue_1: str): 
+def score_son_initial(mot_transcrit_0: str, mot_transcrit_1: str, langue_0: str, langue_1: str): 
     
     liste_consonnes_voyelles_0 = dictionnaire_consonnes[langue_0] + dictionnaire_voyelles[langue_0]
     liste_consonnes_voyelles_1 = dictionnaire_consonnes[langue_1] + dictionnaire_voyelles[langue_1]
@@ -150,36 +150,30 @@ def son_initial(mot_transcrit_0: str, mot_transcrit_1: str, langue_0: str, langu
     liste_0 = extraction_phonemes(mot_transcrit_0, liste_consonnes_voyelles_0)[:2]
     liste_1 = extraction_phonemes(mot_transcrit_1, liste_consonnes_voyelles_1)[:2]
 
-    print(liste_0, liste_1)
-
     liste_0_prep = remplacement_phonemes_identiques(remplacement_paires_identiques(liste_0))
     liste_1_prep = remplacement_phonemes_identiques(remplacement_paires_identiques(liste_1))
-
-    print(liste_0_prep, liste_1_prep)
 
     liste_son_initial_0 = [dictionnaire_voyelles[langue_0].count(voyelle) for voyelle in liste_0]
     liste_son_initial_1 = [dictionnaire_voyelles[langue_1].count(voyelle) for voyelle in liste_1]
 
-    debut_0 = liste_son_initial_0[0]
-    debut_1 = liste_son_initial_1[0]
+    meme_lettre = liste_0_prep[0] == liste_1_prep[0]
+    meme_groupe = liste_0_prep == liste_1_prep
 
-    meme_debut = liste_0_prep[0] == liste_1_prep[0]
+    groupe_consonantique = sum(liste_son_initial_0 + liste_son_initial_1) == 0
+    commence_voyelle = liste_son_initial_0[0] == 1
 
-    chevauchement_double = pourcentage_chevauchement(liste_0_prep, liste_1_prep)
-
-    if meme_debut:
-        print('Commence par la même lettre')
-        if debut_0 == 1:
-            print(('Voyelle : 2 points'))
-        elif chevauchement_double == 1.0 and sum(liste_son_initial_0) == 0:
-            print('Groupe consonantique : 3 points')
-        elif debut_0 == 0:
-            print('Consonne : 3 points')
+    if groupe_consonantique:
+        if meme_groupe:
+            return 3
+        elif meme_lettre:
+            return 1
+    elif meme_lettre:
+        if commence_voyelle:
+            return 2
         else:
-            print('Une lettre différente : 1 point')
+            return 3
     else:
-        print('Pas de correspondance')
-        print('0 points')
+        return 0
 
 
 def pourcentage_chevauchement(liste_phn_0: list[str], liste_phn_1: list[str]) -> float:
@@ -236,16 +230,18 @@ def main():
     # print(f'Consonnes: {liste_consonnes}')
     # print(f'Voyelles: {liste_voyelles}')
 
-    mot_0 = 'pomme'
+    mot_0 = 'brouette'
     langue_0 = 'fr'
 
-    mot_1 = 'baume'
+    mot_1 = 'blate'
     langue_1 = 'fr'
 
     mot_transcrit_0 = transcription(mot_0, langue_0)
     mot_transcrit_1 = transcription(mot_1, langue_1)
 
-    son_initial(mot_transcrit_0, mot_transcrit_1, langue_0, langue_1)
+    print(mot_transcrit_0, mot_transcrit_1)
+    score_son_initial = son_initial_origine(mot_transcrit_0, mot_transcrit_1, langue_0, langue_1)
+    print(score_son_initial)
 
 
 if __name__ == '__main__':
