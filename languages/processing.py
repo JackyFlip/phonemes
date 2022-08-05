@@ -280,13 +280,14 @@ def pipeline(liste_mots_0: list[str], liste_mots_1: list[str], langue_0, langue_
 
         
 def preparation_mot(mot: str) -> list[str]:
-    liste_temp = mot.split('/')
+    mot_rework = re.sub(r"\([^()]*\)", "", mot)
+    liste_temp = mot_rework.split('/')
     return [element.strip() for element in liste_temp]
 
 
 def charger_donnees() -> pd.DataFrame:
     DATA_DIR = Path(Path.cwd()).parent
-    DATA_PATH = os.path.join(DATA_DIR, 'data/CDI-mod.xlsx')
+    DATA_PATH = os.path.join(DATA_DIR, 'data/CDI-complet.xlsx')
     df = pd.read_excel(DATA_PATH)
     return df
 
@@ -315,7 +316,6 @@ def main():
     langues_fr_it = df_fr_it.columns.to_numpy()
     array_fr_it = df_fr_it.to_numpy()
     score_fr_it = calcul_score(array_fr_it, langues_fr_it)
-    # df['score_fr_it'] = score_fr_it
     df_fr_it['score_fr_it'] = score_fr_it
     sauver_donnes(df_fr_it, 'CDI-fr-it')
 
@@ -324,7 +324,6 @@ def main():
     # langues_fr_de = df_fr_de.columns.to_numpy()
     # array_fr_de = df_fr_de.to_numpy()
     # score_fr_de = calcul_score(array_fr_de, langues_fr_de)
-    # # df['score_fr_de'] = score_fr_de
     # df_fr_de['score_fr_de'] = score_fr_de
     # sauver_donnes(df_fr_de, 'CDI-fr_de')
 
@@ -333,7 +332,6 @@ def main():
     # langues_fr_en = df_fr_en.columns.to_numpy()
     # array_fr_en = df_fr_en.to_numpy()
     # score_fr_en = calcul_score(array_fr_en, langues_fr_en)
-    # # df['score_fr_en'] = score_fr_en
     # df_fr_en['score_fr_en'] = score_fr_en
     # sauver_donnes(df_fr_en, 'CDI-fr-en')
 
@@ -342,7 +340,6 @@ def main():
     # langues_fr_pt = df_fr_pt.columns.to_numpy()
     # array_fr_pt = df_fr_pt.to_numpy()
     # score_fr_pt = calcul_score(array_fr_pt, langues_fr_pt)
-    # # df['score_fr_pt'] = score_fr_pt
     # df_fr_pt['score_fr_pt'] = score_fr_pt
     # sauver_donnes(df_fr_pt, 'CDI-fr-pt')
 
@@ -351,7 +348,6 @@ def main():
     # langues_fr_es = df_fr_es.columns.to_numpy() 
     # array_fr_es = df_fr_es.to_numpy()
     # score_fr_es = calcul_score(array_fr_es, langues_fr_es)
-    # # df['score_fr_es'] = score_fr_es
     # df_fr_es['score_fr_es'] = score_fr_es
     # sauver_donnes(df_fr_es, 'CDI-fr-es')
 
