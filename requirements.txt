@@ -1,3 +1,4 @@
+autopep8
 ipykernel
 openpyxl
 pandas
@@ -5,4 +6,5 @@ phonemizer
 pyphen
 syllables
 syltippy
+tqdm
 unidecode
