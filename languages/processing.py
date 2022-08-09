@@ -51,16 +51,16 @@ dictionnaire_phonemes_identiques = {
     'ʁ': 'r',
     'ɹ': 'r',
     'ɾ': 'r',
-    'i:': 'i',
-    'o:': 'o',
-    'a:': 'a',
-    'ɑ:': 'ɑ',
-    'e:': 'e',
+    'iː': 'i',
+    'oː': 'o',
+    'aː': 'a',
+    'ɑː': 'ɑ',
+    'eː': 'e',
     'ɛː': 'ɛ',
-    'ø:': 'ø',
-    'u:': 'u',
-    'y:': 'y',
-    'ɔ:': 'ɔ'
+    'øː': 'ø',
+    'uː': 'u',
+    'yː': 'y',
+    'ɔː': 'ɔ'
 }
 
 dictionnaire_paires_identiques = {
@@ -189,8 +189,12 @@ def pourcentage_chevauchement(liste_phn_0: list[str], liste_phn_1: list[str]) ->
 
     reference = max(taille_liste_phn_0, taille_liste_phn_1)
 
+    # print(liste_phn_0, liste_phn_1)
+
     liste_phn_0_identiques = np.array(remplacement_phonemes_identiques(liste_phn_0))
     liste_phn_1_identiques = np.array(remplacement_phonemes_identiques(liste_phn_1))
+
+    print(liste_phn_0_identiques, liste_phn_1_identiques)
 
     nb_chevauchements = np.count_nonzero(np.in1d(liste_phn_0_identiques, liste_phn_1_identiques))
 
@@ -267,10 +271,10 @@ def pipeline(liste_mots_0: list[str], liste_mots_1: list[str], langue_0, langue_
             print(f'Consonnes : {liste_consonnes_0} | {liste_consonnes_1}')
             print(f'Voyelles : {liste_voyelles_0} | {liste_voyelles_1}')
 
-            print('\nScore son initial', son_initial)
-            print('Score syllabes', syllabes)
-            print(f'Score consonnes {consonnes} ({pourcentage_consonnes*100}%)')
-            print(f'Score voyelles {voyelles} ({pourcentage_voyelles*100}%)')
+            print('\nScore son initial :', son_initial)
+            print('Score syllabes :', syllabes)
+            print(f'Score consonnes : {consonnes} ({pourcentage_consonnes*100}%)')
+            print(f'Score voyelles : {voyelles} ({pourcentage_voyelles*100}%)')
 
     final = np.array(liste_score).mean()
 
@@ -317,7 +321,7 @@ def calcul_score(liste_mots: list['str'], langues: list['str'], verbose: bool=Fa
 
 def main():
 
-    numero_item = 43  # numéro d'item dans le tableau
+    numero_item = 425  # numéro d'item dans le tableau
     langue_base = 'fr'  # langue de référence
     langue_cognat = 'en'  # choisir entre it, de, en, pt et es
     langues = np.array([langue_base, langue_cognat])
