@@ -189,12 +189,8 @@ def pourcentage_chevauchement(liste_phn_0: list[str], liste_phn_1: list[str]) ->
 
     reference = max(taille_liste_phn_0, taille_liste_phn_1)
 
-    # print(liste_phn_0, liste_phn_1)
-
     liste_phn_0_identiques = np.array(remplacement_phonemes_identiques(liste_phn_0))
     liste_phn_1_identiques = np.array(remplacement_phonemes_identiques(liste_phn_1))
-
-    print(liste_phn_0_identiques, liste_phn_1_identiques)
 
     nb_chevauchements = np.count_nonzero(np.in1d(liste_phn_0_identiques, liste_phn_1_identiques))
 
