@@ -229,30 +229,23 @@ def multi_mots(liste_mots_0, liste_mots_1):
     return [[i, j] for i in liste_mots_0 for j in liste_mots_1 if i != j] if liste_mots_0 != liste_mots_1 else [[i, j] for i in liste_mots_0 for j in liste_mots_1]
 
 
-def pipeline(liste_mots_0: list[str], liste_mots_1: list[str], langue_0, langue_1):
+def pipeline(liste_mots_0: list[str], liste_mots_1: list[str], langue_0, langue_1, verbose: bool=False):
     liste_a_traiter = multi_mots(liste_mots_0, liste_mots_1)
-    # print(liste_mots_0, liste_mots_1, liste_a_traiter, len(liste_a_traiter))
     liste_score = []
 
-    for couple in liste_a_traiter:
+    if verbose:
+        print('Liste des mots comparés : ', liste_a_traiter)
 
-        # print(f'\nTranscription {couple}')
+    for couple in liste_a_traiter:
 
         mot_transcrit_0 = transcription(couple[0], langue_0)
         mot_transcrit_1 = transcription(couple[1], langue_1)
 
-        # print(mot_transcrit_0, mot_transcrit_1)
-
         nb_syllabes_0 = compteur_syllabes(couple[0], langue_0)
         nb_syllabes_1 = compteur_syllabes(couple[1], langue_1)
 
-        # print(f'Contiennent {nb_syllabes_0} et {nb_syllabes_1} syllabes')
-
         liste_consonnes_0, liste_voyelles_0 = extraction_consonnes_voyelles(mot_transcrit_0, langue_0)
         liste_consonnes_1, liste_voyelles_1 = extraction_consonnes_voyelles(mot_transcrit_1, langue_1)
-
-        # print(liste_consonnes_0, liste_voyelles_0)
-        # print(liste_consonnes_1, liste_voyelles_1)
 
         son_initial = score_son_initial(mot_transcrit_0, mot_transcrit_1, langue_0, langue_1)
         syllabes = score_syllabes(nb_syllabes_0, nb_syllabes_1)
@@ -267,15 +260,23 @@ def pipeline(liste_mots_0: list[str], liste_mots_1: list[str], langue_0, langue_
 
         liste_score.append(total)
 
-        # print(liste_score)
+        if verbose:
+            
+            print(f'\nTranscription {couple} -> {mot_transcrit_0} | {mot_transcrit_1}')
+            print(f'Contiennent {nb_syllabes_0} et {nb_syllabes_1} syllabes')
+            print(f'Consonnes : {liste_consonnes_0} | {liste_consonnes_1}')
+            print(f'Voyelles : {liste_voyelles_0} | {liste_voyelles_1}')
 
-        # print('\nScore son initial', son_initial)
-        # print('Score syllabes', syllabes)
-        # print(f'Score consonnes {consonnes} ({pourcentage_consonnes*100}%)')
-        # print(f'Score voyelles {voyelles} ({pourcentage_voyelles*100}%)')
+            print('\nScore son initial', son_initial)
+            print('Score syllabes', syllabes)
+            print(f'Score consonnes {consonnes} ({pourcentage_consonnes*100}%)')
+            print(f'Score voyelles {voyelles} ({pourcentage_voyelles*100}%)')
 
     final = np.array(liste_score).mean()
-    # print('\nScore final', final)
+
+    if verbose:
+        print('\nListe des scores : ', liste_score)
+        print('Score non arrondi : ', final)
     return final
 
         
@@ -297,27 +298,48 @@ def sauver_donnes(df: pd.DataFrame, nom: str):
     df.to_excel(DATA_PATH, index=False)
 
 
-def calcul_score(liste_mots: list['str'], langues: list['str']) -> np.array:
+def calcul_score(liste_mots: list['str'], langues: list['str'], verbose: bool=False) -> np.array:
     score_global = np.array([])
 
-    for couple in tqdm(liste_mots):
-        score = pipeline(preparation_mot(couple[0]), preparation_mot(couple[1]), langues[0], langues[1])
-        score_arrondi = int(np.floor(score + 0.5))
-        score_global = np.append(score_global, score_arrondi)
+    if verbose:
+        for couple in liste_mots:
+            score = pipeline(preparation_mot(couple[0]), preparation_mot(couple[1]), langues[0], langues[1], verbose)
+            score_arrondi = int(np.floor(score + 0.5))
+            score_global = np.append(score_global, score_arrondi)
+    else:
+        for couple in tqdm(liste_mots):
+            score = pipeline(preparation_mot(couple[0]), preparation_mot(couple[1]), langues[0], langues[1], verbose)
+            score_arrondi = int(np.floor(score + 0.5))
+            score_global = np.append(score_global, score_arrondi)
     
     return score_global
 
 
 def main():
 
-    df = charger_donnees()
+    numero_item = 85  # numéro d'item dans le tableau
+    langue_base = 'fr'  # langue de référence
+    langue_cognat = 'it'  # choisir entre it, de, en, pt et es
+    langues = np.array([langue_base, langue_cognat])
 
-    df_fr_it = df[['fr', 'it']]
-    langues_fr_it = df_fr_it.columns.to_numpy()
-    array_fr_it = df_fr_it.to_numpy()
-    score_fr_it = calcul_score(array_fr_it, langues_fr_it)
-    df_fr_it['score_fr_it'] = score_fr_it
-    sauver_donnes(df_fr_it, 'CDI-fr-it')
+    df = charger_donnees()  # récupération du tableau complet
+    df_cible = df[langues]  # stockage des colonnes qui nous intéressent
+    liste_mots = df_cible.iloc[numero_item - 1:numero_item].to_numpy()  # recherche de l'item
+
+    print(f'Langues choisies : {langues}')
+    print(f'Mots comparés : {liste_mots}')
+
+    score = calcul_score(liste_mots, langues, True)
+    print(f'Score final : {int(*score)}')
+
+    # df = charger_donnees()
+
+    # df_fr_it = df[['fr', 'it']]
+    # langues_fr_it = df_fr_it.columns.to_numpy()
+    # array_fr_it = df_fr_it.to_numpy()
+    # score_fr_it = calcul_score(array_fr_it, langues_fr_it)
+    # df_fr_it['score_fr_it'] = score_fr_it
+    # sauver_donnes(df_fr_it, 'CDI-fr-it')
 
 
     # df_fr_de = df[['fr', 'de']]
