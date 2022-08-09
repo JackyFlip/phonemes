@@ -8,17 +8,6 @@ import re
 consonnes = ['tʃ', 'dz', 'dʒ', 'ts', 'dʒː', 'dzː', 'tʃː', 'tsː', 'ŋɡ', 'ŋk', 'b', 'd', 'f', 'ɡ', 'ʎ', 'k', 'l', 'm', 'n', 'ɲ', 'p', 'r', 'ɾ', 's', 'ʃ', 't', 'v', 'z']
 voyelles = ['a', 'e', 'ɛ', 'i', 'ɪ', 'o', 'ɔ', 'u', 'ʊ', 'j','w']
 
-mot = input('Entrez un mot en italien : ')
-
-
-phn = phonemize(
-    mot,
-    language='it',
-    backend='espeak',
-    strip=True,
-    preserve_punctuation=True,
-    njobs=4)
-
 
 def extract_consonnes(mot: str):
     phn_consonnes = []
@@ -49,15 +38,42 @@ def compteur_syllabes(mot: str):
     return mot_split, nb_syllabes
 
 
-phn_consonnes = extract_consonnes(phn)
-phn_voyelles = extract_voyelles(phn)
-n_consonnes = len(phn_consonnes)
-n_voyelles = len(phn_voyelles)
+def process_data(mot: str):
 
-mot_split, nb_syllabes = compteur_syllabes(mot)
-nb_syllables_old = estimate(mot)
-nb_syllabes_rework = ceil((nb_syllabes + nb_syllables_old) /2)
+    phn = phonemize(
+        mot,
+        language='it',
+        backend='espeak',
+        strip=True,
+        preserve_punctuation=True,
+        njobs=4)
 
-print(f'Syllables [{nb_syllabes} {nb_syllables_old} {nb_syllabes_rework}]')
-print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes_rework} syllabe(s)')
-print(f'{n_consonnes} consonne(s) : {phn_consonnes} et {n_voyelles} voyelle(s) : {phn_voyelles}')
+    print(phn)
+
+    return extract_consonnes(phn), extract_voyelles(phn), compteur_syllabes(mot)[1]
+
+
+if __name__ == '__main__':
+
+    mot = input('Entrez un mot en italien : ')
+
+    phn = phonemize(
+        mot,
+        language='it',
+        backend='espeak',
+        strip=True,
+        preserve_punctuation=True,
+        njobs=4)
+
+    phn_consonnes = extract_consonnes(phn)
+    phn_voyelles = extract_voyelles(phn)
+    n_consonnes = len(phn_consonnes)
+    n_voyelles = len(phn_voyelles)
+
+    mot_split, nb_syllabes = compteur_syllabes(mot)
+    nb_syllables_old = estimate(mot)
+    nb_syllabes_rework = ceil((nb_syllabes + nb_syllables_old) /2)
+
+    print(f'Syllables [{nb_syllabes} {nb_syllables_old} {nb_syllabes_rework}]')
+    print(f'{mot} / {mot_split} / {phn} contient {nb_syllabes_rework} syllabe(s)')
+    print(f'{n_consonnes} consonne(s) : {phn_consonnes} et {n_voyelles} voyelle(s) : {phn_voyelles}')
