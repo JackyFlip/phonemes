@@ -192,7 +192,7 @@ def pourcentage_chevauchement(liste_phn_0: list[str], liste_phn_1: list[str]) ->
     liste_phn_0_identiques = np.array(remplacement_phonemes_identiques(liste_phn_0))
     liste_phn_1_identiques = np.array(remplacement_phonemes_identiques(liste_phn_1))
 
-    nb_chevauchements = np.intersect1d(liste_phn_0_identiques, liste_phn_1_identiques).size
+    nb_chevauchements = np.count_nonzero(np.in1d(liste_phn_0_identiques, liste_phn_1_identiques))
 
     return nb_chevauchements / reference if reference != 0 else 0
 
@@ -317,9 +317,9 @@ def calcul_score(liste_mots: list['str'], langues: list['str'], verbose: bool=Fa
 
 def main():
 
-    numero_item = 85  # numéro d'item dans le tableau
+    numero_item = 43  # numéro d'item dans le tableau
     langue_base = 'fr'  # langue de référence
-    langue_cognat = 'it'  # choisir entre it, de, en, pt et es
+    langue_cognat = 'en'  # choisir entre it, de, en, pt et es
     langues = np.array([langue_base, langue_cognat])
 
     df = charger_donnees()  # récupération du tableau complet
