@@ -332,13 +332,14 @@ def main():
     score = calcul_score(liste_mots, langues, True)
     print(f'Score final : {int(*score)}')
 
-    # df = charger_donnees()
+    df = charger_donnees()
 
     # df_fr_it = df[['fr', 'it']]
     # langues_fr_it = df_fr_it.columns.to_numpy()
     # array_fr_it = df_fr_it.to_numpy()
     # score_fr_it = calcul_score(array_fr_it, langues_fr_it)
-    # df_fr_it['score_fr_it'] = score_fr_it
+
+    # df_fr_it.loc[:, 'score_fr_it'] = score_fr_it
     # sauver_donnes(df_fr_it, 'CDI-fr-it')
 
 
@@ -346,7 +347,8 @@ def main():
     # langues_fr_de = df_fr_de.columns.to_numpy()
     # array_fr_de = df_fr_de.to_numpy()
     # score_fr_de = calcul_score(array_fr_de, langues_fr_de)
-    # df_fr_de['score_fr_de'] = score_fr_de
+
+    # df_fr_de.loc[:, 'score_fr_de'] = score_fr_de
     # sauver_donnes(df_fr_de, 'CDI-fr_de')
 
 
@@ -354,7 +356,8 @@ def main():
     # langues_fr_en = df_fr_en.columns.to_numpy()
     # array_fr_en = df_fr_en.to_numpy()
     # score_fr_en = calcul_score(array_fr_en, langues_fr_en)
-    # df_fr_en['score_fr_en'] = score_fr_en
+
+    # df_fr_en.loc[:, 'score_fr_en'] = score_fr_en
     # sauver_donnes(df_fr_en, 'CDI-fr-en')
 
 
@@ -362,7 +365,8 @@ def main():
     # langues_fr_pt = df_fr_pt.columns.to_numpy()
     # array_fr_pt = df_fr_pt.to_numpy()
     # score_fr_pt = calcul_score(array_fr_pt, langues_fr_pt)
-    # df_fr_pt['score_fr_pt'] = score_fr_pt
+
+    # df_fr_pt.loc[:, 'score_fr_pt'] = score_fr_pt
     # sauver_donnes(df_fr_pt, 'CDI-fr-pt')
 
 
@@ -370,7 +374,8 @@ def main():
     # langues_fr_es = df_fr_es.columns.to_numpy() 
     # array_fr_es = df_fr_es.to_numpy()
     # score_fr_es = calcul_score(array_fr_es, langues_fr_es)
-    # df_fr_es['score_fr_es'] = score_fr_es
+
+    # df_fr_es.loc[:, 'score_fr_es'] = score_fr_es
     # sauver_donnes(df_fr_es, 'CDI-fr-es')
 
 
