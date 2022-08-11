@@ -1,3 +1,4 @@
+from typing import List
 from constants import *
 from pyphen import Pyphen
 from phonemizer import phonemize
@@ -73,13 +74,13 @@ dictionnaire_paires_identiques = {
 }
 
 
-def remplacement_phonemes_identiques(liste_phn: list[str]) -> list[str]:
+def remplacement_phonemes_identiques(liste_phn: List[str]) -> List[str]:
     for key in dictionnaire_phonemes_identiques.keys():
         liste_phn = [phn.replace(key, dictionnaire_phonemes_identiques[key]) for phn in liste_phn]
     return liste_phn
 
 
-def remplacement_paires_identiques(liste_phn: list[str]) -> list[str]:
+def remplacement_paires_identiques(liste_phn: List[str]) -> List[str]:
     for key in dictionnaire_paires_identiques.keys():
         liste_phn = [phn.replace(key, dictionnaire_paires_identiques[key]) for phn in liste_phn]
     return liste_phn
@@ -114,12 +115,12 @@ def compteur_syllabes(mot: str, langue: str) -> int:
     return len(dic.inserted(mot).split('-'))
 
 
-def extraction_consonnes_voyelles(mot_transcrit: str, langue: str) -> (list[str], list[str]):
+def extraction_consonnes_voyelles(mot_transcrit: str, langue: str) -> (List[str], List[str]):
     return (extraction_phonemes(mot_transcrit, dictionnaire_consonnes[langue]), 
     extraction_phonemes(mot_transcrit, dictionnaire_voyelles[langue]))
 
 
-def extraction_phonemes(mot: str, liste_phonemes: list[str]) -> list[str]:
+def extraction_phonemes(mot: str, liste_phonemes: List[str]) -> List[str]:
     phn_extr = []
     mot_base = mot
     for phoneme in liste_phonemes:
@@ -133,7 +134,7 @@ def extraction_phonemes(mot: str, liste_phonemes: list[str]) -> list[str]:
     return phn_extr_ord
 
 
-def rangement_liste_phonemes(mot: str, phn_extr: list[str]) -> list[str]:
+def rangement_liste_phonemes(mot: str, phn_extr: List[str]) -> List[str]:
     ordre = []
     if not phn_extr:
         return phn_extr
@@ -183,7 +184,7 @@ def score_son_initial(mot_transcrit_0: str, mot_transcrit_1: str, langue_0: str,
         return 0
 
 
-def pourcentage_chevauchement(liste_phn_0: list[str], liste_phn_1: list[str]) -> float:
+def pourcentage_chevauchement(liste_phn_0: List[str], liste_phn_1: List[str]) -> float:
     taille_liste_phn_0 = len(liste_phn_0)
     taille_liste_phn_1 = len(liste_phn_1)
 
@@ -229,7 +230,7 @@ def multi_mots(liste_mots_0, liste_mots_1):
     return [[i, j] for i in liste_mots_0 for j in liste_mots_1 if i != j] if liste_mots_0 != liste_mots_1 else [[i, j] for i in liste_mots_0 for j in liste_mots_1]
 
 
-def pipeline(liste_mots_0: list[str], liste_mots_1: list[str], langue_0, langue_1, verbose: bool=False):
+def pipeline(liste_mots_0: List[str], liste_mots_1: List[str], langue_0, langue_1, verbose: bool=False):
     liste_a_traiter = multi_mots(liste_mots_0, liste_mots_1)
     liste_score = []
 
@@ -280,7 +281,7 @@ def pipeline(liste_mots_0: list[str], liste_mots_1: list[str], langue_0, langue_
     return final
 
         
-def preparation_mot(mot: str) -> list[str]:
+def preparation_mot(mot: str) -> List[str]:
     mot_rework = re.sub(r"\([^()]*\)", "", mot)
     liste_temp = mot_rework.split('/')
     return [element.strip() for element in liste_temp]
@@ -298,7 +299,7 @@ def sauver_donnes(df: pd.DataFrame, nom: str):
     df.to_excel(DATA_PATH, index=False)
 
 
-def calcul_score(liste_mots: list['str'], langues: list['str'], verbose: bool=False) -> np.array:
+def calcul_score(liste_mots: List[str], langues: List[str], verbose: bool=False) -> np.array:
     score_global = np.array([])
 
     if verbose:
@@ -332,7 +333,7 @@ def main():
     score = calcul_score(liste_mots, langues, True)
     print(f'Score final : {int(*score)}')
 
-    df = charger_donnees()
+    # df = charger_donnees()
 
     # df_fr_it = df[['fr', 'it']]
     # langues_fr_it = df_fr_it.columns.to_numpy()
